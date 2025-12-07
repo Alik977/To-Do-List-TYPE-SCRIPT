@@ -1,24 +1,32 @@
 
-import { Trash2 } from "lucide-react";
-import { motion } from "framer-motion";
+
+
 import '..//../App/Style.css'
+import Checkbox from "../CheckboxTodo/CheckboxTodo";
+
+
 interface Props {
-  task: string;
+  task: { text: string; done: boolean };
   index: number;
   deleteTask: (index: number) => void;
+  toggleDone: (index: number) => void;
 }
 
-export default function TaskItem({ task, index, deleteTask }: Props) {
+export default function TaskItem({ task, index, deleteTask, toggleDone }: Props) {
   return (
-    <motion.li
-      initial={{ opacity: 0, y: 10 }}
-      animate={{ opacity: 1, y: 0 }}
-      className="bg-gray-50 border rounded-xl p-3 flex justify-between items-center"
-    >
-      <span>{task}</span>
-      <button onClick={() => deleteTask(index)} className="text-red-500 hover:text-red-700">
-        <Trash2 size={20} />
+    <li className="task-item">
+      <Checkbox
+        checked={task.done}
+        onChange={() => toggleDone(index)}
+      />
+
+      <span className={task.done ? "line-through" : ""}>
+        {task.text}
+      </span>
+
+      <button className="delete-btn" onClick={() => deleteTask(index)}>
+        ✖
       </button>
-    </motion.li>
+    </li>
   );
 }
